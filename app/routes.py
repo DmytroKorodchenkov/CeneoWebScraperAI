@@ -1,10 +1,14 @@
 from app import app
+import os
 from flask import render_template
 
 @app.route('/')
 def index():
-    name = "Dmytro Korodchenkov"
-    return render_template("index.html.jinja", name = name)
+    lis = []
+    num = os.listdir('./opinions/')
+    for i in range(len(num)):
+        lis.append(num[i].split('.')[0])
+    return render_template("index.html.jinja", dirs = lis)
 
 @app.route('/new')
 def new():
