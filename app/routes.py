@@ -113,7 +113,7 @@ def opinions():
                 for key, values in opinion_elements.items() 
             }
             single_opinion["opinion_id"] = opinion["data-entry-id"]
-            single_opinion["rcmd"] = True if single_opinion["rcmd"] == "Polecam " else False if single_opinion["rcmd"] == "Nie polecam" else None
+            single_opinion["rcmd"] = True if single_opinion["rcmd"] == "Polecam" else False if single_opinion["rcmd"] == "Nie polecam" else None
             single_opinion["score"] = float(single_opinion["score"].split("/")[0].replace(",", "."))
             single_opinion["useful_for"] = int(single_opinion["useful_for"])
             single_opinion["useless_for"] = int(single_opinion["useless_for"])
