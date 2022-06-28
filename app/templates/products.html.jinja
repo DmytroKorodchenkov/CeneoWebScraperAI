@@ -1,9 +1,95 @@
-{% extends "base.html.jinja" %}
-{% block content %}
-    <h2>List of products</h2>
-    <ul class="list-group">
-    {% for product in products %}
-        <li class="list-group-item"><a href="{{url_for('product', product_id=product)}}">{{product}}</a></li>
-    {% endfor %}
-    </ul>
-{% endblock content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+  <title>Ceneo Web Scraper</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <div class="container text-center">
+            <h1 class="display-1">Ceneo Web Scraper</h1>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{url_for('index')}}"><i
+                                    class="bi bi-house-fill"></i> Home Page</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('extract')}}"><i class="bi bi-cloud-download-fill"></i>
+                                Extract Opinions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('products')}}"><i class="bi bi-list-stars"></i> Products
+                                List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('author')}}"><i class="bi bi-person-circle"></i> About
+                                Author</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="row align-items-start">
+        <div class="col">
+        </div>
+        <div class="col">
+            {% block content %}
+            <h2>List of products</h2>
+            <table class="table table-striped">
+                <tr>
+                    <th>id</th>
+                    <th>Product id</th>
+                    <th>Opinions Number</th>
+                    <th>Pros Number</th>
+                    <th>Cons Number</th>
+                    <th>Average Score</th>
+                    <th>JSON</th>
+                    <th>CSV</th>
+                    <th>Excel</th>
+                </tr>
+                {% for product in products %}
+                {% if product %}
+                <td>{{loop.index}}</td>
+                <td><a href="https://ceneo.pl/{{product['id']}}">{{product['id']}}</a></td>
+                <td>{{product['opinions_count']}}</td>
+                <td>{{product['pros_count']}}</td>
+                <td>{{product['cons_count']}}</td>
+                <td>{{product['average_score']}}</td>
+                <td><a href="/products/getJSON/{{product['id']}}">JSON</a></td>
+                <td><a href="/products/getCSV/{{product['id']}}">CSV</a></td>
+                <td><a href="/products/getEXCEL/{{product['id']}}">Excel</a></td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
+            {% endblock content %}
+
+        </div>
+        <div class="col">
+        </div>
+    </div>
+
+    <footer class="container bg-light text-secondary fixed-bottom text-center">
+        <p>&copy; Dmytro Korodchenkov Cracow University of Economics</p>
+    </footer>
+</body>
+
+</html>

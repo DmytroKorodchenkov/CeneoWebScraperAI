@@ -1,12 +1,10 @@
 def scraper(product_id):
     import json
     from turtle import home, pos
-    from typing import Type
     import requests
     from bs4 import BeautifulSoup
     from googletrans import Translator
-    import time
-    import logging
+    import os
 
     def get_element(parent, selector, attribute=None, return_list= False):
         try:

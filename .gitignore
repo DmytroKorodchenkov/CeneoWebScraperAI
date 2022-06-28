@@ -127,3 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Project
+app/__pycache__
+app/Unit/__pycache__
+opinions/
