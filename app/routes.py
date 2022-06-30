@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from fileinput import filename
 from lib2to3.pgen2.grammar import opmap_raw
 from pickle import TRUE
 from unittest import expectedFailure
@@ -10,6 +11,7 @@ import pandas as pd
 from flask import render_template, request, redirect, send_file
 from app.utils.scraper import scraper
 from app.utils.analyzer import analyzer
+
 if not os.path.exists("opinions"):
     os.makedirs("opinions")
 
@@ -37,12 +39,23 @@ def extract():
 
 @app.route('/products')
 def products():
-    data = []
-    for opinion in os.listdir('./opinions/'):
-        if opinion.split('.')[1] == 'json':
-            data.append(analyzer(opinion.split('.')[0]))
-    return render_template("products.html.jinja", products=data)
-
+    filenames = []
+    for filenames in os.listdir('./opinions/'):
+        if filenames.split('.')[1] == 'json':
+            filenames.append(analyze(filenames.split('.')[0]))
+    return render_template("products.html.jinja", filenames=filenames)
+    
+    
+    '''
+    filenames = []
+    for filename in os.listdir("./opinions/"):
+        if filename.endswith(".json"):
+            filenames.append(analyzer(filename.split(".")[0]))
+            filenames.append(filename)
+    return render_template('products.html', filenames=filenames)
+    '''  
+    
+    
 
 @app.route('/author')
 def author():
