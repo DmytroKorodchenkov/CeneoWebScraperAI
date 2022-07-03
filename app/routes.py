@@ -17,12 +17,12 @@ if not os.path.exists("opinions"):
 
 @app.route('/')
 def index():
+    name = "Dmytro Korodchenkov"
     return render_template("index.html.jinja")
 
 @app.route('/extract', methods=['GET', 'POST'])
 def extract():
     if request.method=='GET':
-        products = [filename.split(".")[0] for filename in os.listdir("./opinions")]
         return render_template("extract.html.jinja")
     if request.method == 'POST':
         id = request.form['product_id']
@@ -40,21 +40,20 @@ def extract():
 @app.route('/products')
 def products():
     filenames = []
-    for filenames in os.listdir('./opinions/'):
-        if filenames.split('.')[1] == 'json':
-            filenames.append(analyze(filenames.split('.')[0]))
-    return render_template("products.html.jinja", filenames=filenames)
-    
-    
-    '''
-    filenames = []
-    for filename in os.listdir("./opinions/"):
-        if filename.endswith(".json"):
-            filenames.append(analyzer(filename.split(".")[0]))
-            filenames.append(filename)
-    return render_template('products.html', filenames=filenames)
-    '''  
-    
+    for filename in os.listdir('./opinions/'):
+        if filename.split('.')[1] == 'json':
+            try:
+                filenames.append(analyzer(filename.split('.')[0]))
+            except:
+                data = {
+        'id': filename.split('.')[0],
+        'opinions_count': 0,
+        'pros_count': 0,
+        'cons_count': 0,
+        'average_score': 0
+                }
+                filenames.append(data)
+    return render_template("products.html.jinja", products=filenames)
     
 
 @app.route('/author')
